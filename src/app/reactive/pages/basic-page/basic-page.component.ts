@@ -27,7 +27,7 @@ export class BasicPageComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    // this.myForm.reset( rtx5090 );
+    // this.myForm.reset( rtx5090 );// aqui se establece el valor
   }
 
   isValidField(field: string): boolean | null {
