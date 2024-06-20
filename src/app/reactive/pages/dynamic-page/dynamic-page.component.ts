@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
 
 @Component({
   templateUrl: './dynamic-page.component.html',
@@ -15,6 +21,9 @@ export class DynamicPageComponent {
       ['Death Stranding', Validators.required],
     ]),
   });
+
+  public newFavorite: FormControl = new FormControl('', Validators.required);
+
   get favoriteGames() {
     return this.myForm.get('favoriteGames') as FormArray;
   }
@@ -48,6 +57,17 @@ export class DynamicPageComponent {
 
     return null;
   }
+
+  onAddToFavorites(): void {
+    if (this.newFavorite.invalid) return;
+    const newGame = this.newFavorite.value;
+
+    // this.favoriteGames.push(  new FormControl( newGame, Validators.required ) );
+    this.favoriteGames.push(this.fb.control(newGame, Validators.required));
+
+    this.newFavorite.reset();
+  }
+
   onDeleteFavorite(index: number): void {
     this.favoriteGames.removeAt(index); // se puede usar el metodo get ya que jvascritp hace paso por referencia
   }
