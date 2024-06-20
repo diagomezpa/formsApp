@@ -48,6 +48,9 @@ export class DynamicPageComponent {
 
     return null;
   }
+  onDeleteFavorite(index: number): void {
+    this.favoriteGames.removeAt(index); // se puede usar el metodo get ya que jvascritp hace paso por referencia
+  }
   onSumit(): void {
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
