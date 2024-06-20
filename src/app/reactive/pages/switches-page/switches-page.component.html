@@ -1,7 +1,7 @@
 <h2>Reactivos: Switches</h2>
 <hr />
 
-<form [formGroup]="myForm" autocomplete="off">
+<form [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
   <!-- Radio -->
   <div class="row mb-3">
     <label class="col-sm-3 col-form-label">Género</label>
@@ -63,7 +63,10 @@
           Términos y condiciones de uso
         </label>
       </div>
-      <span *ngIf="isvaidtermsAndConditions()" class="form-text text-danger">
+      <span
+        *ngIf="isValidField('termsAndConditions')"
+        class="form-text text-danger"
+      >
         Debe de aceptar las condiciones de uso
       </span>
     </div>
@@ -72,13 +75,7 @@
   <!-- Boton submit -->
   <div class="row">
     <div class="col">
-      <button
-        (click)="onSave()"
-        class="btn btn-primary float-end"
-        type="submit"
-      >
-        Guardar
-      </button>
+      <button class="btn btn-primary float-end" type="submit">Guardar</button>
     </div>
   </div>
 </form>

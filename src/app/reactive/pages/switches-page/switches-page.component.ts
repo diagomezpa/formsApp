@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './switches-page.component.html',
   styles: ``,
 })
-export class SwitchesPageComponent {
+export class SwitchesPageComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   public myForm: FormGroup = this.fb.group({
@@ -14,10 +14,26 @@ export class SwitchesPageComponent {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
+  public person = {
+    gender: 'F',
+    wantNotifications: false,
+  };
+
+  ngOnInit(): void {
+    this.myForm.reset(this.person);
+  }
+
+  // mi solución a la tarea
   isvaidtermsAndConditions(): boolean {
     return (
       !this.myForm.controls['termsAndConditions'].pristine &&
       !this.myForm.controls['termsAndConditions'].value
+    );
+  }
+
+  isValidField(field: string): boolean | null {
+    return (
+      this.myForm.controls[field].errors && this.myForm.controls[field].touched
     );
   }
 
@@ -27,8 +43,9 @@ export class SwitchesPageComponent {
       return;
     }
 
+    const { termsAndConditions, ...newPerson } = this.myForm.value; // separamos el termino termsAndConditions y creamos con el resto una nueva persona usando el operador spread
+    this.person = newPerson;
     console.log(this.myForm.value);
-
-    this.myForm.reset({ price: 0, inStorage: 0 });
+    console.log(this.person);
   }
 }
