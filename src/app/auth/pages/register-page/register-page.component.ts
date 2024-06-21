@@ -5,6 +5,7 @@ import {
   emailPattern,
   firstNameAndLastnamePattern,
 } from '../../../shared/validators/validators';
+import { ValidatorsService } from '../../../shared/service/validators.service';
 
 @Component({
   templateUrl: './register-page.component.html',
@@ -14,17 +15,31 @@ export class RegisterPageComponent {
   public myForm: FormGroup = this.fb.group({
     name: [
       '',
-      [Validators.required, Validators.pattern(firstNameAndLastnamePattern)],
+      [
+        Validators.required,
+        Validators.pattern(this.validatorsService.firstNameAndLastnamePattern),
+      ],
     ],
-    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    username: ['', [Validators.required, cantBeStrider]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(this.validatorsService.emailPattern),
+      ],
+    ],
+    username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     password2: ['', [Validators.required]],
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService
+  ) {}
 
   isValidField(field: string) {
     // Todo: obtener la validación desde un servicio
+
+    return this.validatorsService.isValidField(this.myForm, field);
   }
 
   onSubmit() {
