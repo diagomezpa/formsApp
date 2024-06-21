@@ -6,6 +6,7 @@ import {
   firstNameAndLastnamePattern,
 } from '../../../shared/validators/validators';
 import { ValidatorsService } from '../../../shared/service/validators.service';
+import { EmailValidator } from '../../../shared/validators/email.validator.service';
 
 @Component({
   templateUrl: './register-page.component.html',
@@ -19,13 +20,23 @@ export class RegisterPageComponent {
         Validators.required,
         Validators.pattern(this.validatorsService.firstNameAndLastnamePattern),
       ],
+      // primero dispara los validadores sincronos
     ],
+    // email: [
+    //   '',
+    //   [
+    //     Validators.required,
+    //     Validators.pattern(this.validatorsService.emailPattern),
+    //   ],
+    //   [new EmailValidator()],
+    // ],
     email: [
       '',
       [
         Validators.required,
         Validators.pattern(this.validatorsService.emailPattern),
       ],
+      [this.emailValidator],
     ],
     username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -33,7 +44,8 @@ export class RegisterPageComponent {
   });
   constructor(
     private fb: FormBuilder,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private emailValidator: EmailValidator
   ) {}
 
   isValidField(field: string) {
