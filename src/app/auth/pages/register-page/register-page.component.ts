@@ -13,35 +13,49 @@ import { EmailValidator } from '../../../shared/validators/email.validator.servi
   styles: ``,
 })
 export class RegisterPageComponent {
-  public myForm: FormGroup = this.fb.group({
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(this.validatorsService.firstNameAndLastnamePattern),
+  public myForm: FormGroup = this.fb.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            this.validatorsService.firstNameAndLastnamePattern
+          ),
+        ],
+        // primero dispara los validadores sincronos
       ],
-      // primero dispara los validadores sincronos
-    ],
-    // email: [
-    //   '',
-    //   [
-    //     Validators.required,
-    //     Validators.pattern(this.validatorsService.emailPattern),
-    //   ],
-    //   [new EmailValidator()],
-    // ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(this.validatorsService.emailPattern),
+      // email: [
+      //   '',
+      //   [
+      //     Validators.required,
+      //     Validators.pattern(this.validatorsService.emailPattern),
+      //   ],
+      //   [new EmailValidator()],
+      // ],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.validatorsService.emailPattern),
+        ],
+        [this.emailValidator],
       ],
-      [this.emailValidator],
-    ],
-    username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    password2: ['', [Validators.required]],
-  });
+      username: [
+        '',
+        [Validators.required, this.validatorsService.cantBeStrider],
+      ],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', [Validators.required]],
+    },
+    {
+      validators: [
+        // validaciones al nivel de todo el formulario tenemos acceso a todos los controles del mismo es para validar dos campos al tiempo o mas
+
+        this.validatorsService.isFieldOneEqualFiealTwo('password', 'password2'),
+      ],
+    }
+  );
   constructor(
     private fb: FormBuilder,
     private validatorsService: ValidatorsService,

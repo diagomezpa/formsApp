@@ -41,4 +41,23 @@ export class ValidatorsService {
       return null;
     };
   }
+
+  public isFieldOneEqualFiealTwo(field1: string, field2: string) {
+    console.log('probando isFieldOneEqualFiealTwo ');
+    // es una funcion que regresa una funcion que tiene el control del form group
+    // regresamos una funcion que va evaluar "comparar" y regrasa el formulario "formgroup"
+    // (formGroup : FormGroup) es el formulario al cual estamos ammarrando la validacion con todo y campos
+    return (formGroup: FormGroup): ValidationErrors | null => {
+      const fieldValue1 = formGroup.get(field1)?.value;
+      const fieldValue2 = formGroup.get(field2)?.value;
+
+      if (fieldValue1 !== fieldValue2) {
+        formGroup.get(field2)?.setErrors({ notEqual: true }); // establezemos el error en field2 passwors2
+        return { notEquel: true };
+      }
+
+      formGroup.get(field2)?.setErrors(null);
+      return null;
+    };
+  }
 }
